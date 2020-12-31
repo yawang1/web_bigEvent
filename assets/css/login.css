@@ -16,7 +16,6 @@ body{
 .layui-main{
     height: 60px;
     background: url(/assets/images/logo.png) no-repeat;
-    margin-top: 20px!important;
 }
 .content_main{
     width: 400px;
@@ -35,10 +34,24 @@ body{
 .layui-form{
     padding: 0 30px;
 }
-.username{
-    width: 100%;
-    height: 38px;
-    border: 1px solid #e6e6e6;
-    border-radius: 2px;
-    padding-left: 32px;
+
+.layui-input{
+    padding-left: 32px!important;
+}
+.layui-form-item{
+    position: relative;
+}
+.layui-icon{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.goto{
+    float: right;
+}
+.goto a{
+    font-size: 12px;
+}
+.ct_reg{
+    display: none;
 }
