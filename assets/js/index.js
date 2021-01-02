@@ -22,7 +22,7 @@ function Getusermsg() {
         success: res => {
             if (res.status !== 0) return layer.msg('阿哦 ! 获取失败了耶')
             // 渲染用户的头像
-            var name = res.data.username || res.data.nickname;
+            var name = res.data.nickname || res.data.username;
             $('#welcome').html('欢迎  ' + name)
             if (res.data.user_pic == null) {
                 // 如果后台没有图片头像 渲染文字图像
