@@ -25,6 +25,7 @@ $(function () {
         e.preventDefault();
         xuanran();
     })
+    // 修改数据
     $('.layui-form').submit(function (e) {
         e.preventDefault();
         $.ajax({
