@@ -67,8 +67,8 @@ $(function () {
             count: total, //数据总数，从服务端得到
             limit: q.pagesize, //每页显示几条数据
             curr: q.pagenum,   //页码数
-            layout:	['count','limit','prev', 'page', 'next', 'skip'],
-            limits:[2,3,5,10],
+            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
+            limits: [2, 3, 5, 10],
             // 触发 jump 回调的方式有两种：
             // 1. 点击页码的时候，会触发 jump 回调
             // 2. 只要调用了 laypage.render() 方法，就会触发 jump 回调
@@ -86,4 +86,27 @@ $(function () {
             }
         });
     }
+    // 给表格元素绑定删除事件 删除文章
+    $('tbody').on('click', '.del', function () {
+        var id = $(this).attr('data-id')
+        // 得到页面上还有几条数据  有几个删除按钮就是有几条数据
+        var len = $('.del').length
+        layer.confirm('T.T 真的要删人家嘛?', { icon: 3, title: '提示' }, function (index) {
+            $.ajax({
+                method: 'GET',
+                url: '/my/article/delete/' + id,
+                success: res => {
+                    if (res.status !== 0) return layer.msg('你删不掉,略略略~')
+                    layer.msg('你把我删了,呜呜~')
+                    // 如果页面只有一个数据 把它删除后 需要让页面跳转到上一页再渲染
+                    if (len == 1) {
+                        q.pagenum = q.pagenum == 1 ? q.pagenum : q.pagenum - 1
+                    }
+                    xuanran();
+                    layer.close(index);
+                }
+            })
+        });
+    })
+
 })
