@@ -108,5 +108,10 @@ $(function () {
             })
         });
     })
-
+    // 给编辑委托添加点击事件 跳转到文章编辑
+    $('tbody').on('click', '#btn-edit', function () {
+        var id = $(this).attr('data-id');
+        localStorage.setItem('id',id)
+        location.href = '/article/art_edit.html'
+    })
 })
