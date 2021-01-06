@@ -113,5 +113,7 @@ $(function () {
         var id = $(this).attr('data-id');
         localStorage.setItem('id',id)
         location.href = '/article/art_edit.html'
+        // 或者把ID存入地址中
+        // location.href = '/article/art_edit.html?id='+id
     })
 })

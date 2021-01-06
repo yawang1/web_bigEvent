@@ -1,22 +1,46 @@
 $(function () {
     var form = layui.form;
     var layer = layui.layer;
+    // 或者通过地址存的ID拿到
+    // console.log(location.href);
+    // 获取当前点击编辑的ID
+    var id = localStorage.getItem('id')
+    localStorage.removeItem('id')
 
     // 实现编辑页面功能  获取当前页的文章数据
     getArt();
     // 获取文章的后台数据
     function getArt() {
-        var id = localStorage.getItem('id')
         $.ajax({
             type: 'GET',
             url: '/my/article/' + id,
             success: res => {
-                console.log(res);
                 $('[name=title]').val(res.data.title)
-                // console.log($('[name=cate_id]').prop(res.data.cate_id));
-                // $('[name=cate_id]').prop(res.data.cate_id.attr('selected'));
+                // $('[name=cate_id]').prop(res.data.cate_id).attr('selected',true)
+                    // let value = $('[name=cate_id]').prop(res.data.cate_id).value
+                    // console.log(value);
+                if ($('[name=cate_id]').prop(res.data.cate_id) === undefined) {
+                    layer.msg('这个类别已经被删除了');
+                } else {
+                    console.log($('[name=cate_id]').prop(res.data.cate_id));
+                    let value = $('[name=cate_id]').prop(res.data.cate_id).value
+                    $('option').eq(value).attr('selected',true)
+                }
+                form.render();
                 $('[name=content]').val(res.data.content)
-                // $('#image').attr('src', res.data.cover_img)
+
+                $('#image').attr('src', "http://api-breakingnews-web.itheima.net" + res.data.cover_img)
+                // 1. 初始化图片裁剪器
+                var $image = $('#image')
+
+                // 2. 裁剪选项
+                var options = {
+                    aspectRatio: 400 / 280,
+                    preview: '.img-preview'
+                }
+
+                // 3. 初始化裁剪区域
+                $image.cropper(options)
             }
         })
     }
@@ -36,17 +60,7 @@ $(function () {
     })
     // 调用 initEditor() 方法，初始化富文本编辑器
     initEditor()
-    // 1. 初始化图片裁剪器
-    var $image = $('#image')
 
-    // 2. 裁剪选项
-    var options = {
-        aspectRatio: 400 / 280,
-        preview: '.img-preview'
-    }
-
-    // 3. 初始化裁剪区域
-    $image.cropper(options)
     // 给选择封面按钮绑定点击事件 点击隐藏域
     $('#choose').click(function () {
         $('#hidden').click();
@@ -75,8 +89,7 @@ $(function () {
         // 基于 form 表单，快速创建一个 FormData 对象
         var fd = new FormData($(this)[0]);
         fd.append('state', state)
-        fd.append('Id', localStorage.getItem('id'))
-        localStorage.removeItem('id')
+        fd.append('Id', id)
         $image
             .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
                 width: 400,
