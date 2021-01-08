@@ -16,16 +16,19 @@ $(function () {
             url: '/my/article/' + id,
             success: res => {
                 $('[name=title]').val(res.data.title)
-                // $('[name=cate_id]').prop(res.data.cate_id).attr('selected',true)
-                    // let value = $('[name=cate_id]').prop(res.data.cate_id).value
-                    // console.log(value);
-                if ($('[name=cate_id]').prop(res.data.cate_id) === undefined) {
-                    layer.msg('这个类别已经被删除了');
+                // if ($('[name=cate_id]').prop(res.data.cate_id) === undefined) {
+                //     layer.msg('这个类别已经被删除了');
+                // } else {
+                //     // console.log($('[name=cate_id]').prop(res.data.cate_id));
+                //     $(`option[value=${res.data.cate_id}]`).attr('selected', true)
+                // }
+                let value = $(`option[value=${res.data.cate_id}]`).attr('value')
+                if (value === undefined) {
+                    layer.msg('这个文章类别已经被删除了哟')
                 } else {
-                    console.log($('[name=cate_id]').prop(res.data.cate_id));
-                    let value = $('[name=cate_id]').prop(res.data.cate_id).value
-                    $('option').eq(value).attr('selected',true)
+                    $(`option[value=${res.data.cate_id}]`).prop('selected', true)
                 }
+
                 form.render();
                 $('[name=content]').val(res.data.content)
 
