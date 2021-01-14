@@ -57,7 +57,8 @@ $(function () {
             type: 'GET',
             url: '/my/article/cates/' + id,
             success: res => {
-                console.log(res);
+                // console.log(res);
+                if(res.status !== 0) return layer.msg('获取信息失败！')
                 form.val('form-edit', res.data)
             }
         })
@@ -68,7 +69,7 @@ $(function () {
     // 更新文章数据
     $('body').on('submit', '#form-edit', function (e) {
         e.preventDefault()
-        console.log($(this).serialize());
+        // console.log($(this).serialize());
         $.ajax({
             type: 'POST',
             url: '/my/article/updatecate',
